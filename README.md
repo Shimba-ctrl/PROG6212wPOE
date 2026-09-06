@@ -37,7 +37,7 @@ Show Image
 Video Presentation
 <!-- TODO: Replace with your unlisted YouTube link once recorded. -->
 
-Video walkthrough: [Add YouTube link here]
+Video walkthrough: https://youtu.be/5qC4FpsGJ0k
 
 The video covers:
 
