@@ -43,7 +43,11 @@ The video covers:
 
 An explanation of the ERD and the design decisions behind it.
 A walkthrough of the API endpoint plan and how it maps to the two user roles.
-A live run of the SQL script in SSMS, showing the database and seed data being created successfully.
+
 AI Tool Disclosure
-<!-- TODO: Briefly note here if/how you used AI tools (e.g. planning, proofreading, debugging the SQL script), per the assignment's disclosure requirement. -->
+
+I used Claude throughout the planning process for Part 1: to help reason through the ERD structure and relationships, understand what is needed for the API endpoint plan table, write and debug the SQL database script (including troubleshooting SSMS errors), and set up my Git/GitHub workflow and the GitHub Actions CI/CD file. All final design decisions, understanding, and explanations in the accompanying video are my own.
+
+A live run of the SQL script in SSMS, showing the database and seed data being created successfully.
+
 
