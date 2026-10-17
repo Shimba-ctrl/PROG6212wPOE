@@ -1,0 +1,6 @@
+@PROG6212_PART2_HostAddress = http://localhost:5133
+
+GET {{PROG6212_PART2_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
