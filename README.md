@@ -260,7 +260,7 @@ The following screenshots should be included as evidence of the completed implem
 
 ## 10. Demonstration Video – Part 2
 
-**Video link:** [Add your unlisted Part 2 demonstration video link here]
+**Video link:** [[Add your unlisted Part 2 demonstration video link here]](https://youtu.be/gmwVm_3tfKs)
 
 The demonstration should show:
 
