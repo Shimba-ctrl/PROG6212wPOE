@@ -3,6 +3,9 @@
 Roles: **None** (public, no login required), **Any** (any logged-in user), **Organiser**, **Participant**.
 "(own event)" / "(own enrolment)" means the logged-in user must be the owner of that specific record, not just hold the role.
 
+
+
+
 ## Authentication
 
 | HTTP Method | Route | Description | Role Required | Request Body | Expected Response |
