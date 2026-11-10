@@ -16,7 +16,7 @@ Imports System.Reflection
 <Assembly: System.Reflection.AssemblyCompanyAttribute("PROG6212_PART2.Tests"),  _
  Assembly: System.Reflection.AssemblyConfigurationAttribute("Debug"),  _
  Assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0"),  _
- Assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ebafdfa34bdbe7f87acacb4396d1fbef30086f07"),  _
+ Assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fe0cbabd79eb623961623a563a3130878a46626e"),  _
  Assembly: System.Reflection.AssemblyProductAttribute("PROG6212_PART2.Tests"),  _
  Assembly: System.Reflection.AssemblyTitleAttribute("PROG6212_PART2.Tests"),  _
  Assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")> 

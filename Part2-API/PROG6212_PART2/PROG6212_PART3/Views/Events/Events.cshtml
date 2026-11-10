@@ -1,0 +1,54 @@
+﻿@model List<PROG6212_PART3.Models.EventViewModel>
+
+@{
+    ViewData["Title"] = "Explore Events";
+}
+
+<h2>Explore Events</h2>
+<p>Browse available race events.</p>
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.ErrorMessage
+    </div>
+}
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info">
+        No events are currently available.
+    </div>
+}
+else
+{
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-6 mb-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Name</h5>
+
+                        <p>@item.Description</p>
+
+                        <p>
+                            <strong>Date:</strong>
+                            @item.EventDate.ToString("dd MMMM yyyy HH:mm")
+                        </p>
+
+                        <p><strong>Location:</strong> @item.Location</p>
+
+                        <p><strong>Distance:</strong> @item.Distance km</p>
+
+                        <p><strong>Event type:</strong> @item.EventType</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+<a asp-controller="Participant"
+   asp-action="Index"
+   class="btn btn-secondary">Back to Dashboard</a>

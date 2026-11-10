@@ -1,0 +1,161 @@
+﻿@model List<PROG6212_PART3.Models.EnrolmentViewModel>
+
+@{
+    ViewData["Title"] = "Manage Results";
+    Layout = null;
+
+    var results = ViewBag.Results as List<PROG6212_PART3.Models.ResultViewModel>
+                  ?? new List<PROG6212_PART3.Models.ResultViewModel>();
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RaceDay | Manage Results</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+    <style>
+        body {
+            background: #f4f7f8;
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            background: #10243a;
+            padding: 18px 35px;
+        }
+
+        .brand {
+            color: white;
+            font-size: 27px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #176b63, #10243a);
+            color: white;
+            padding: 35px;
+        }
+
+        .content {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a class="brand" asp-controller="Organiser" asp-action="Index">RaceDay</a>
+    </nav>
+
+    <section class="header">
+        <div class="container">
+            <h1>Manage Results</h1>
+            <p>Record finishing times and positions for your participants.</p>
+        </div>
+    </section>
+
+    <main class="container py-5">
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+        }
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+        }
+
+        <div class="content">
+            <h4 class="mb-4">Participant Results</h4>
+
+            @if (Model == null || !Model.Any())
+            {
+                <div class="alert alert-info">No enrolments are available.</div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-striped align-middle">
+                        <thead>
+                            <tr>
+                                <th>Participant ID</th>
+                                <th>Event</th>
+                                <th>Category</th>
+                                <th>Enrolment Status</th>
+                                <th>Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                var existingResult = results.FirstOrDefault(
+                                r => r.EnrolmentId == item.EnrolmentId);
+
+                                <tr>
+                                    <td>@item.ParticipantId</td>
+                                    <td>@item.EventName</td>
+                                    <td>@item.CategoryName</td>
+                                    <td>@item.Status</td>
+                                    <td>
+                                        @if (existingResult != null)
+                                        {
+                                            <span class="text-success fw-bold">
+                                                @existingResult.FinishTime.ToString(@"hh\:mm\:ss")
+                                                @if (existingResult.Position.HasValue)
+                                                {
+                                                    <span> - Position @existingResult.Position</span>
+                                                }
+                                            </span>
+                                        }
+                                        else if (item.Status == "Confirmed")
+                                        {
+                                            <form asp-controller="Results"
+                                                  asp-action="Create"
+                                                  method="post">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden"
+                                                       name="enrolmentId"
+                                                       value="@item.EnrolmentId" />
+                                                <div class="d-flex gap-2">
+                                                    <input type="time"
+                                                           name="finishTime"
+                                                           class="form-control"
+                                                           required />
+                                                    <input type="number"
+                                                           name="position"
+                                                           min="1"
+                                                           placeholder="Position"
+                                                           class="form-control" />
+                                                    <button type="submit"
+                                                            class="btn btn-success">
+                                                        Save
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">Not eligible</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+
+            <a asp-controller="Organiser" asp-action="Index"
+               class="btn btn-secondary mt-3">Back to Dashboard</a>
+        </div>
+    </main>
+</body>
+</html>

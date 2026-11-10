@@ -1,0 +1,209 @@
+﻿@model List<PROG6212_PART3.Models.EventViewModel>
+
+@{
+    ViewData["Title"] = "Explore Events";
+    Layout = null;
+
+    var categories = ViewBag.Categories as List<PROG6212_PART3.Models.CategoryViewModel>
+                     ?? new List<PROG6212_PART3.Models.CategoryViewModel>();
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RaceDay | Explore Events</title>
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+
+    <style>
+        body {
+            background: #f4f7f8;
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            background: #10243a;
+            padding: 18px 35px;
+        }
+
+        .brand {
+            color: white;
+            font-size: 27px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #176b63, #10243a);
+            color: white;
+            padding: 40px 35px;
+        }
+
+        .event-card {
+            background: white;
+            border-radius: 14px;
+            padding: 25px;
+            height: 100%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+
+            .event-card h5 {
+                color: #176b63;
+                font-weight: bold;
+            }
+
+        .category-box {
+            background: #f4f7f8;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a class="brand"
+           asp-controller="Participant"
+           asp-action="Index">RaceDay</a>
+    </nav>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Explore Events</h1>
+            <p class="lead">Find your next race and challenge yourself!</p>
+        </div>
+    </section>
+
+    <main class="container py-5">
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["ErrorMessage"]
+            </div>
+        }
+
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="alert alert-danger">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+
+        @if (ViewBag.CategoryError != null)
+        {
+            <div class="alert alert-warning">
+                @ViewBag.CategoryError
+            </div>
+        }
+
+        @if (Model == null || !Model.Any())
+        {
+            <div class="alert alert-info">
+                No events are currently available.
+            </div>
+        }
+        else
+        {
+            <div class="row g-4">
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-6">
+                        <div class="event-card">
+                            <h5>@item.Name</h5>
+
+                            <p>@item.Description</p>
+
+                            <p>
+                                <strong>Date:</strong>
+                                @item.EventDate.ToString("dd MMMM yyyy HH:mm")
+                            </p>
+
+                            <p><strong>Location:</strong> @item.Location</p>
+                            <p><strong>Distance:</strong> @item.Distance km</p>
+                            <p><strong>Event Type:</strong> @item.EventType</p>
+
+                            <hr />
+
+                            <h6 class="fw-bold">Available Categories</h6>
+
+                            @{
+                                var eventCategories = categories
+                                .Where(c => c.EventId == item.EventId)
+                                .ToList();
+                            }
+
+                            @if (eventCategories.Any())
+                            {
+                                @foreach (var category in eventCategories)
+                                {
+                                    <div class="category-box">
+                                        <strong>@category.Name</strong>
+
+                                        <p class="mb-2">
+                                            Distance: @category.Distance km
+                                        </p>
+
+                                        <p class="mb-2">
+                                            Participant limit:
+                                            @(category.MaxParticipants?.ToString() ?? "No limit specified")
+                                        </p>
+
+                                        <form asp-controller="Participant"
+                                              asp-action="Enrol"
+                                              method="post">
+
+                                            @Html.AntiForgeryToken()
+
+                                            <input type="hidden"
+                                                   name="categoryId"
+                                                   value="@category.CategoryId" />
+
+                                            <button type="submit"
+                                                    class="btn btn-success btn-sm">
+                                                Enrol Now
+                                            </button>
+                                        </form>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <p class="text-muted">
+                                    No categories have been added to this event yet.
+                                </p>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+
+        <a asp-controller="Participant"
+           asp-action="Enrolments"
+           class="btn btn-success mt-4">
+            My Enrolments
+        </a>
+
+        <a asp-controller="Participant"
+           asp-action="Index"
+           class="btn btn-secondary mt-4">
+            Back to Dashboard
+        </a>
+
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+
+name: Build RaceDay Part 3
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore MVC project
+        run: dotnet restore Part2-API/PROG6212_PART2/PROG6212_PART3/PROG6212_PART3.csproj
+
+      - name: Build MVC project
+        run: dotnet build Part2-API/PROG6212_PART2/PROG6212_PART3/PROG6212_PART3.csproj --configuration Release --no-restore

@@ -37,7 +37,9 @@ namespace PROG6212_PART2.Controllers
                     e.EventDate,
                     e.Location,
                     e.OrganiserId,
-                    e.CreatedAt
+                    e.CreatedAt,
+                    e.Distance,
+                    e.EventType,
                 })
                 .ToListAsync();
 
@@ -152,6 +154,9 @@ namespace PROG6212_PART2.Controllers
             existingEvent.Description = updatedEvent.Description;
             existingEvent.EventDate = updatedEvent.EventDate;
             existingEvent.Location = updatedEvent.Location.Trim();
+            existingEvent.Distance = updatedEvent.Distance;
+            existingEvent.EventType = updatedEvent.EventType;
+
 
             await _context.SaveChangesAsync();
 
